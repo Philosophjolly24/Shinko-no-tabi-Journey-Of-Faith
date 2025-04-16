@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+:root {
+    --primary-colour: #3e1e00;
+    --secondary-colour: #000;
+}
+
+#root {
+    height: 100vh;
+    width: 100vw;
+}
+
+.logo {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 27px;
+    margin: auto;
+}
+
+body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Permanent Marker", arial;
+
+    transition: all 0.5s ease 0s;
+    background-color: #fff;
+    color: #000;
+}
+
+strong {
+    color: var(--primary-colour);
+}
+
+main {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px 0 10px;
+    height: 100%;
+
+
+    >.verse-section {
+        font-size: clamp(24px, 5vw, 38px);
+        padding: 0 10px;
+        max-width: clamp(320px, 87vw, 1100px);
+        max-height: 350px;
+        overflow: hidden;
+    }
+
+
+    >.passage-section {
+        font-size: clamp(20px, 5.75vw, 30px);
+        margin-top: 0;
+        margin-bottom: 8px;
+        color: var(--primary-colour);
+    }
+}
+
+
+
+
+.title {
+    font-size: clamp(20px, 4.4vw, 30px);
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--primary-colour);
+}
+
+.link {
+    color: #000;
+    text-decoration: underline;
+    margin-top: 30px;
+    font-size: clamp(14px, 2.2vw, 20px);
+    transition: all 0.5s ease 0s;
+}
+
+.link:hover {
+    color: var(--primary-colour);
+}
+
+.page-slider-section {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 40px;
+    height: 20px;
+    z-index: 9999;
+    border-radius: 10px;
+    padding: 4px;
+
+
+
+    >.circle-active {
+        position: relative;
+        display: flex;
+        border-width: 0;
+        background-color: #3e1e00 !important;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+
+        transition: all 0.5s ease 0s;
+        z-index: 1000;
+    }
+
+    >.circle {
+        position: relative;
+        border-width: 0;
+        background-color: #0000004a;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        transition: all 0.5s ease 0s;
+        z-index: 1000;
+    }
+}
+
+.image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.image {
+    width: clamp(285px, 65vw, 1100px);
+    height: 450px;
+    border-radius: 5px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    /* Allow child elements to be positioned relative to it */
+}
+
+.image-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: #00000062;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    /* Ensure overlay doesn't affect layout of parent */
+    top: 0;
+    left: 0;
+}
+
+.image-text {
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size: clamp(20px, 5vw, 32px);
+    box-sizing: border-box;
+    text-shadow: 3px 3px #00000061;
+
+}
+
+button {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background-color: #fff;
+}
+
+.download-icon {
+    height: 22px;
+    width: 22px;
+    cursor: pointer;
+}
+
+@media (min-width : 768px) {
+    .logo {
+        width: 32px;
+        height: 32px;
+    }
+
+}
+
+@media (min-width : 1024px) {
+    button {
+
+        width: 30px;
+        height: 30px;
+        border: none;
+        background-color: #fff;
+    }
+
+    .download-icon {
+        height: 30px;
+        width: 30px;
+        cursor: pointer;
+    }
+
+}
