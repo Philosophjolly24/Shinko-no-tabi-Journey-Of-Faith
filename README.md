@@ -18,6 +18,10 @@ A simple "Bible Verse of the Day" + daily biblical affirmation app, built as a p
 
 This project was created to combine faith and frontend learning — helping me grow in both spiritual and technical areas.
 
+## Live Demo
+
+👉 [Visit the App](https://journey-of-faith.pages.dev/)
+
 ## Getting Started
 
 Clone the repo and run:
