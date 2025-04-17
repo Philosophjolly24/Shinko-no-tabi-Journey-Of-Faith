@@ -51,6 +51,7 @@ main {
         max-width: clamp(320px, 87vw, 1100px);
         max-height: 350px;
         overflow: hidden;
+        text-align: center;
     }
 
 

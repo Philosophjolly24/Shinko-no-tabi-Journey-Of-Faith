@@ -7,13 +7,16 @@ import "swiper/swiper-bundle.css";
 import { Verse } from "./verse";
 import { Passage } from "./passage";
 // *Hooks
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 
 // *Scripts
 import "../style.css";
-import data from "../scripts/script";
-import { referenceLink, shuffle } from "../scripts/script";
+import {
+  getData as getVerseData,
+  referenceLink,
+  shuffle,
+} from "../scripts/script";
 import affirmations from "../scripts/affirmations";
 import wallpapers from "../scripts/wallpapers";
 // *html to png
@@ -22,61 +25,81 @@ import { toPng } from "html-to-image";
 // let lastFetchDate: Date;
 
 export default function SwiperPages() {
-  let path;
-  let verse;
-  let passage;
-  let affirmation;
-  let storageData;
+  const [path, setPath] = useState("");
+  const [verse, setVerse] = useState("");
+  const [passage, setPassage] = useState("");
+  const [affirmation, setAffirmation] = useState("");
+
+  let storageData: {
+    wallpaperPath: string;
+    verse: string;
+    passage: string;
+    affirmation: string;
+  };
   let cachedData;
   const currentDate = new Date().toISOString().split("T")[0];
 
   shuffle(affirmations);
   shuffle(wallpapers);
 
-  if (localStorage.getItem("lastFetchDate")) {
-    const lastDate = localStorage.getItem("lastFetchDate");
-    console.log(lastDate);
-    cachedData = localStorage.getItem("cachedData");
+  useEffect(() => {
+    if (localStorage.getItem("lastFetchDate")) {
+      const lastDate = localStorage.getItem("lastFetchDate");
+      console.log(lastDate);
+      cachedData = localStorage.getItem("cachedData");
 
-    if (cachedData !== null) {
-      storageData = JSON.parse(cachedData);
-    }
+      if (cachedData !== null) {
+        storageData = JSON.parse(cachedData);
+      }
 
-    if (lastDate == currentDate) {
-      path = storageData.wallpaperPath;
-      verse = storageData.verse;
-      passage = storageData.passage;
-      affirmation = storageData.affirmation;
+      if (lastDate == currentDate) {
+        setPath(storageData.wallpaperPath);
+        setVerse(storageData.verse);
+        setPassage(storageData.passage);
+        setAffirmation(storageData.affirmation);
+      } else {
+        getVerseData().then((data) => {
+          if (data !== undefined) {
+            const newPath = `./${wallpapers[0]}`;
+            const newAffirmation = affirmations[0];
+
+            setVerse(data.verse);
+            setPassage(data.passage);
+            setPath(newPath);
+            setAffirmation(newAffirmation);
+            const obj = JSON.stringify({
+              wallpaperPath: newPath,
+              verse: data.verse,
+              passage: data.passage,
+              affirmation: affirmations[0],
+            });
+            localStorage.setItem("cachedData", obj);
+            localStorage.setItem("lastFetchDate", currentDate);
+          }
+        });
+      }
     } else {
-      path = `/${wallpapers[0]}`;
-      verse = data.verse;
-      passage = data.passage;
-      affirmation = affirmations[0];
+      getVerseData().then((data) => {
+        if (data !== undefined) {
+          const newPath = `./${wallpapers[0]}`;
+          const newAffirmation = affirmations[0];
 
-      const obj = JSON.stringify({
-        wallpaperPath: path,
-        verse: data.verse,
-        passage: data.passage,
-        affirmation: affirmations[0],
+          setVerse(data.verse);
+          setPassage(data.passage);
+          setPath(newPath);
+          setAffirmation(newAffirmation);
+          const obj = JSON.stringify({
+            wallpaperPath: newPath,
+            verse: data.verse,
+            passage: data.passage,
+            affirmation: affirmations[0],
+          });
+          localStorage.setItem("cachedData", obj);
+          localStorage.setItem("lastFetchDate", currentDate);
+        }
       });
-      localStorage.setItem("cachedData", obj);
-      localStorage.setItem("lastFetchDate", currentDate);
     }
-  } else {
-    path = `/${wallpapers[0]}`;
-    verse = data.verse;
-    passage = data.passage;
-    affirmation = affirmations[0];
-
-    const obj = JSON.stringify({
-      wallpaperPath: path,
-      verse: data.verse,
-      passage: data.passage,
-      affirmation: affirmations[0],
-    });
-    localStorage.setItem("cachedData", obj);
-    localStorage.setItem("lastFetchDate", currentDate);
-  }
+  }, []);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
@@ -110,7 +133,7 @@ export default function SwiperPages() {
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
         <SwiperSlide>
-          <img className="logo" src="/cross.svg" alt="" />
+          <img className="logo" src="./cross.svg" alt="" />
           <h1 className="title">Verse of the day</h1>
           <main>
             <Verse>
@@ -127,7 +150,7 @@ export default function SwiperPages() {
 
         <SwiperSlide>
           <>
-            <img className="logo" src="/cross.svg" alt="" />
+            <img className="logo" src="./cross.svg" alt="" />
             <h1 className="title">Daily Affirmations</h1>
             <main>
               <div className="image-container" ref={elementRef}>
@@ -141,7 +164,7 @@ export default function SwiperPages() {
                 </div>
               </div>
               <button onClick={htmlToImageConvert}>
-                <img className="download-icon" src="/download.svg" alt="" />
+                <img className="download-icon" src="./download.svg" alt="" />
               </button>
             </main>
           </>
